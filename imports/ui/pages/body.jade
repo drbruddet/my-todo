@@ -1,0 +1,24 @@
+body
+	.container
+		header
+			h1 Todolist #{incompleteCount}
+			label.hide-completed
+				input(type="checkbox")
+				span Hide Completed Tasks
+			+loginButtons
+
+		section.tasks-board
+			div.tasks-lists
+				if currentUser
+					form.new-list
+						input(type="text" name="text" placeholder="Add List")
+				ul
+					each lists
+						+list
+			div.tasks-component
+				if currentUser
+					form.new-task
+						input(type="text" name="text" placeholder="Type to add new tasks")
+				ul
+					each tasks
+						+task

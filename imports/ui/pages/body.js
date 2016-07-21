@@ -8,7 +8,7 @@ import { Tasks } from '/imports/api/tasks.js';
 import '../components/task.js';
 import '../components/list.js';
 import './body.css';
-import './body.html';
+import './body.jade';
 
 Template.body.onCreated(function bodyOnCreated() {
  	this.state = new ReactiveDict();

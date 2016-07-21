@@ -1,0 +1,10 @@
+template(name="list")
+	li(class='{{#if private}}private{{/if}}')
+		if isOwner
+			button.toggle-private
+				if private
+					span Private
+				else
+					span Public
+		span.text #{text}
+		button.delete &times;

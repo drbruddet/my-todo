@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Lists } from '/imports/api/lists.js';
 
-import './list.html';
+import './list.jade';
 
 Template.list.helpers({
  	isOwner() {
