@@ -1,10 +1,12 @@
 template(name="list")
-	li(class='{{#if private}}private{{/if}}')
+	a.item(class='{{#if private}}private{{/if}}')
+		i.delete.fa.fa-times.right
 		if isOwner
-			button.toggle-private
+			span.toggle-private
 				if private
-					span Private
+					i.fa.fa-lock.private-lock
 				else
-					span Public
+					i.fa.fa-unlock.public-lock
 		span.text #{text}
-		button.delete &times;
+		.ui.teal.left.pointing.label
+			span 1
