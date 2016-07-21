@@ -1,17 +1,20 @@
 template(name="task")
 	.item(class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}}")
-		i.large.bomb.middle.aligned.icon
-		.content
+		.left.floated.content
 			input.toggle-checked(type="checkbox" checked="{{checked}}")
-			i.fa.fa-times.left.delete
-			if isOwner
-				span.toggle-private
-					if private
-						i.fa.fa-lock.private-lock
-					else
-						i.fa.fa-unlock.public-lock
+			.ui.red.empty.circular.label
+		.left.floated.content
 			if editing
 				input.full-input(type="text" value="{{text}}")
 			else
 				a#edit.header #{text}
 				.description #{username} - {{dateFormate createdAt}}
+		.right.floated.content.buttons.ui.icon.large
+			if isOwner
+				.ui.button.toggle-private.toggle
+					if private
+						i.fa.fa-lock.private-lock
+					else
+						i.fa.fa-unlock.public-lock
+			.ui.button.delete
+				i.icon.delete

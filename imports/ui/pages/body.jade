@@ -31,13 +31,18 @@ body
 				each lists
 					+list
 		div.twelve.wide.column
-			.ui.relaxed.divided.list
+			.ui.relaxed.divided.list.aligned.middle.relaxed
 				if currentUser
-					.item
-						i.large.edit.middle.aligned.icon
-						.content
-							form.new-task.ui.transparent.icon.input
-								input(type="text" name="text" placeholder="Type to add new tasks")
+					.ui.right.labeled.input
+						form.new-task.ui.transparent.icon.input
+							input(type="text" name="text" placeholder="Type to add new tasks")
+							.ui.dropdown.label
+								.text Basse
+								i.dropdown.icon
+								.menu
+									.item Basse
+									.item Moyen
+									.item Haute
 				each tasks
 					+task
 
