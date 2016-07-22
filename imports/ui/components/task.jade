@@ -3,7 +3,7 @@ template(name="task")
 		.left.floated.content
 			.ui.button.teal.toggle-checked(checked="{{checked}}" class="{{#if checked}}buttoncheck{{/if}}")
 				i.icon.checkmark
-			.ui.red.empty.circular.label
+			.ui.empty.circular.label(class="{{priorityColor priority}}")
 		if editing
 			.ui.action.input.editinginput.fluid
 				input.full-input(type="text" value="{{text}}")

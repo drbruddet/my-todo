@@ -18,6 +18,20 @@ Template.task.helpers({
 			return moment(time).format("DD-MM-YYYY HH:mm");
 		}
 	},
+	priorityColor: function(priority) {
+		switch(priority) {
+			case 0:
+				return "green";
+				break;
+			case 1:
+				return "orange";
+				break;
+			case 2:
+				return "red";
+				break;
+		}
+		return "white";
+	},
 });
 
 Template.task.events({

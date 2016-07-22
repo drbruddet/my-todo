@@ -7,6 +7,7 @@ body
 			label Hide Completed Tasks
 
 	main.ui.page.grid
+
 		div.four.wide.column
 			.ui.vertical.menu
 				if currentUser
@@ -16,17 +17,26 @@ body
 							input(type="text" name="text" placeholder="Add List")
 				each lists
 					+list
+
 		div.twelve.wide.column
 			if currentUser
 				form.ui.action.input.fluid.new-task.huge
 					input(type="text" name="text" placeholder="Type to add new tasks")
-					select.ui.compact.selection.dropdown
-						option(value="normal") Normal
-						option(value="urgent") Urgent
-						option(value="veryurgent") Very Urgent
-					.ui.button(type="submit") New Task
-
+					.ui.selection.dropdown.priority.compact
+						input(type="hidden" name="Priority")
+						I.dropdown.icon
+						.default.text Priority
+						.menu
+							+priorityDropdown(value="0" text="Normal" color="green")
+							+priorityDropdown(value="1" text="Important" color="orange")
+							+priorityDropdown(value="2" text="Urgent" color="red")
+					button.ui.button.new-task-button(type="submit") New Task
 			.ui.relaxed.divided.list.aligned.middle.relaxed
 				each tasks
 					+task
 
+
+template(name="priorityDropdown")
+	.item(data-value="#{value}" data-text="#{text}")
+		.ui.empty.circular.label(class="#{color}")
+		span #{text}

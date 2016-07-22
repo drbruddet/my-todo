@@ -45,12 +45,15 @@ Template.body.helpers({
 Template.body.events({
 	'submit .new-task' (event) {
 		event.preventDefault();
+		console.log(event.target.text.value);
 
 		const target = event.target;
 		const text = target.text.value;
+		const priority = Number($('.ui.dropdown.priority').dropdown("get value"));
 
-		Meteor.call('tasks.insert', text);
+		Meteor.call('tasks.insert', text, priority);
 		target.text.value = '';
+		$('.ui.dropdown.priority').dropdown('restore defaults');
 	},
 	'submit .new-list' (event) {
 		event.preventDefault();
