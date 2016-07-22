@@ -8,14 +8,13 @@ header.header
 	padding: 40px
 	text-align: center
 	color: #ffffff
-
-.task.checked
-	text-decoration: line-through
-	background: GreyColor
-
-.task
 	.hide-completed label
 		color: TealColor !important
+
+.task
+	&.checked
+		text-decoration: line-through
+		background: GreyColor
 	.private-lock
 		color: red
 	.public-lock
