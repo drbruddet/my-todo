@@ -1,0 +1,32 @@
+body
+	header.header
+		h1 Todolist #{incompleteCount}
+		+loginButtons
+		.hide-completed.ui.checkbox.slider
+			input(type="checkbox")
+			label Hide Completed Tasks
+
+	main.ui.page.grid
+		div.four.wide.column
+			.ui.vertical.menu
+				if currentUser
+					.item
+						form.new-list.ui.transparent.icon.input
+							i.icon.edit
+							input(type="text" name="text" placeholder="Add List")
+				each lists
+					+list
+		div.twelve.wide.column
+			if currentUser
+				form.ui.action.input.fluid.new-task.huge
+					input(type="text" name="text" placeholder="Type to add new tasks")
+					select.ui.compact.selection.dropdown
+						option(value="normal") Normal
+						option(value="urgent") Urgent
+						option(value="veryurgent") Very Urgent
+					.ui.button(type="submit") New Task
+
+			.ui.relaxed.divided.list.aligned.middle.relaxed
+				each tasks
+					+task
+

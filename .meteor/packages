@@ -23,13 +23,5 @@ accounts-password
 practicalmeteor:mocha
 session
 mquandalle:jade
-coffeescript
 stylus
-fortawesome:fontawesome
-semantic:ui
-less
-juliancwirko:postcss
-samsemilio:semantic-ui-stylus
-useraccounts:semantic-ui
-semantic:ui-icon
 momentjs:moment
