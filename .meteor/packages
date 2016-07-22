@@ -25,3 +25,6 @@ session
 mquandalle:jade
 stylus
 momentjs:moment
+semantic:ui
+less
+juliancwirko:postcss
