@@ -1,9 +1,25 @@
-.checked
+TealColor 			= #39cccc
+GreyColor 			= #e0e1e2
+DarkGreyColor 	= #333333
+
+header.header
+	background: DarkGreyColor
+	margin-bottom: 60px
+	padding: 40px
+	text-align: center
+	color: #ffffff
+
+.task.checked
 	text-decoration: line-through
-	background: #E7E7E7
+	background: GreyColor
 
-.private-lock
-	color: red
+.task
+	.hide-completed label
+		color: TealColor !important
+	.private-lock
+		color: red
+	.public-lock
+		color: white
+	.buttoncheck
+		background: GreyColor !important
 
-.public-lock
-	color: white

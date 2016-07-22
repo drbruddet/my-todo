@@ -15,7 +15,7 @@ Template.task.helpers({
 		if ((moment().unix() - moment(time).unix()) < 3600) {
 			return moment(time).fromNow();
 		} else {
-			return moment(time).format("YYYY-MM-DD HH:mm");
+			return moment(time).format("DD-MM-YYYY HH:mm");
 		}
 	},
 });

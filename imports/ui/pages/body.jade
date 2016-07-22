@@ -1,26 +1,12 @@
 body
-	header
-		nav.ui.segment.inverted
-			div.ui.inverted.secondary.pointing.menu
-				a.active.item
-					| Todo
-				a.item
-					| On Verra
-				.right.menu
-					.item
-						.ui.icon.input
-							input(type='text', placeholder='Search...')
-							i.search.link.icon
-					.ui.item.dropdown
-						+loginButtons
+	header.header
+		h1 Todolist #{incompleteCount}
+		+loginButtons
+		.hide-completed.ui.checkbox.slider
+			input(type="checkbox")
+			label Hide Completed Tasks
 
 	main.ui.page.grid
-		.row
-			h1 Todolist #{incompleteCount}
-			.hide-completed.ui.checkbox.slider
-				input(type="checkbox")
-				label Hide Completed Tasks
-
 		div.four.wide.column
 			.ui.vertical.menu
 				if currentUser
