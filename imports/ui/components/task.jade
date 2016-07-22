@@ -4,18 +4,19 @@ template(name="task")
 			.ui.button.teal.toggle-checked(checked="{{checked}}" class="{{#if checked}}buttoncheck{{/if}}")
 				i.icon.checkmark
 			.ui.red.empty.circular.label
-		.left.floated.content
-			if editing
+		if editing
+			.ui.action.input.editinginput.fluid
 				input.full-input(type="text" value="{{text}}")
-			else
+		else
+			.left.floated.content
 				a#edit.header #{text}
 				.description {{dateFormate createdAt}} -  #{username}
-		.right.floated.content.buttons.ui.icon.large
-			if isOwner
-				.ui.button.toggle-private.toggle
-					if private
-						i.lock.icon.private-lock
-					else
-						i.unlock.icon.public-lock
-			.ui.button.delete.red
-				i.icon.delete
+			.right.floated.content.buttons.ui.icon.large
+				if isOwner
+					.ui.button.toggle-private.toggle
+						if private
+							i.lock.icon.private-lock
+						else
+							i.unlock.icon.public-lock
+				.ui.button.delete.red
+					i.icon.delete
