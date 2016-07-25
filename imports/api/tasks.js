@@ -18,16 +18,19 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
-	'tasks.insert'(text, priority) {
+	'tasks.insert'(text, privacy, priority) {
 		check(text, String);
 		check(priority, Number);
+		check(privacy, Boolean);
 
+		console.log(privacy);
 		if  (! this.userId) {
 			throw new Meteor.Error('not-authorized');
 		}
 
 		Tasks.insert({
 			text,
+			private: privacy,
 			priority,
 			createdAt: new Date(),
 			owner: this.userId,

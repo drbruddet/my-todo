@@ -48,11 +48,13 @@ Template.body.events({
 
 		const target = event.target;
 		const text = target.text.value;
+		const privacy = $('.ui.dropdown.privacy').dropdown("get text") === "Public" ? false : true;
 		const priority = Number($('.ui.dropdown.priority').dropdown("get value"));
 
-		Meteor.call('tasks.insert', text, priority);
+		Meteor.call('tasks.insert', text, privacy, priority);
 		target.text.value = '';
 		$('.ui.dropdown.priority').dropdown('restore defaults');
+		$('.ui.dropdown.privacy').dropdown('restore defaults');
 	},
 	'submit .new-list' (event) {
 		event.preventDefault();

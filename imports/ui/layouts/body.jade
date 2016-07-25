@@ -22,9 +22,12 @@ body
 			if currentUser
 				form.ui.action.input.fluid.new-task.huge
 					input(type="text" name="text" placeholder="Type to add new tasks")
+					select.ui.compact.selection.dropdown.privacy
+						option(value="Public") Public
+						option(value="Private") Private
 					.ui.selection.dropdown.priority.compact
 						input(type="hidden" name="Priority")
-						I.dropdown.icon
+						i.dropdown.icon
 						.default.text Priority
 						.menu
 							+priorityDropdown(value="0" text="Normal" color="green")
