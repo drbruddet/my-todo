@@ -45,7 +45,6 @@ Template.body.helpers({
 Template.body.events({
 	'submit .new-task' (event) {
 		event.preventDefault();
-		console.log(event.target.text.value);
 
 		const target = event.target;
 		const text = target.text.value;

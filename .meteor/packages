@@ -28,3 +28,5 @@ momentjs:moment
 semantic:ui
 less
 juliancwirko:postcss
+kadira:flow-router
+kadira:blaze-layout
