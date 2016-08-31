@@ -9,7 +9,7 @@ template(name="task")
 				input.full-input(type="text" value="{{text}}")
 		else
 			.left.floated.content
-				a#edit.header #{text}
+				#edit.header #{text}
 				.description {{dateFormate createdAt}} -  #{username}
 			.right.floated.content.buttons.ui.icon.large
 				if isOwner

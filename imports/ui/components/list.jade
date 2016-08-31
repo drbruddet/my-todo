@@ -1,5 +1,5 @@
 template(name="list")
-	a.item(class='{{#if private}}private{{/if}}')
+	a.item.listitem(class='{{#if private}}private{{/if}}')
 		i.delete.fa.fa-times.right
 		if isOwner
 			span.toggle-private

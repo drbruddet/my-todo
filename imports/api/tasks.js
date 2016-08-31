@@ -23,7 +23,6 @@ Meteor.methods({
 		check(priority, Number);
 		check(privacy, Boolean);
 
-		console.log(privacy);
 		if  (! this.userId) {
 			throw new Meteor.Error('not-authorized');
 		}
@@ -45,7 +44,6 @@ Meteor.methods({
 		if (task.private && task.owner !== this.userId) {
 			throw new Meteor.Error('not-authorized');
 		}
-
 		Tasks.remove(taskId);
 	},
 
