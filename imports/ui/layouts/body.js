@@ -82,7 +82,7 @@ Template.body.events({
 	'click .sorting'(event) {
 		event.preventDefault();
 
-		const value = $('.ui.dropdown.sorting').dropdown("get text");
+		const value = $('.ui.dropdown.sorting').dropdown("get value");
 
 		switch(value) {
 			case "Recent":
