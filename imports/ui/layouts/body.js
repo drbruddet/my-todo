@@ -25,7 +25,6 @@ Template.body.helpers({
 	// HELPER TASKS: Cache les taches complètées
 	tasks() {
 		const instance = Template.instance();
-		Session.set("sort_order", {createdAt: -1 });
 
 		if (instance.state.get('hideCompleted')) {
 			return Tasks.find({ checked: { $ne: true } }, { sort: Session.get("sort_order") });
@@ -77,5 +76,38 @@ Template.body.events({
 	// Hide completed tasks with the radio button in header
 	'change .hide-completed input'(event, instance) {
 		instance.state.set('hideCompleted', event.target.checked);
+	},
+
+	'click .sorting'(event) {
+		event.preventDefault();
+
+		const value = $('.ui.dropdown.sorting').dropdown("get text");
+
+		switch(value) {
+			case "Recent":
+				Session.set("sort_order", {createdAt: -1 });
+				break;
+			case "Older":
+				Session.set("sort_order", {createdAt: 0 });
+				break;
+			case "Alpha":
+				Session.set("sort_order", {text: 0 });
+				break;
+			case "Pending":
+				Session.set("sort_order", {checked: 0 });
+				break;
+			case "Finished":
+				Session.set("sort_order", {checked: -1 });
+				break;
+			case "Public":
+				Session.set("sort_order", {private: 0 });
+				break;
+			case "Private":
+				Session.set("sort_order", {private: -1 });
+				break;
+			case "Priority":
+				Session.set("sort_order", {priority: -1 });
+				break;
+		}
 	},
 });
