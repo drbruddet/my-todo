@@ -52,6 +52,7 @@ Template.body.events({
 		const target = event.target;
 		const text = target.text.value;
 		const privacy = $('.ui.dropdown.privacy').dropdown("get text") === "Public" ? false : true;
+		console.log(privacy);
 		const priority = Number($('.ui.dropdown.priority').dropdown("get value"));
 
 		Meteor.call('tasks.insert', text, privacy, priority);
@@ -91,7 +92,7 @@ Template.body.events({
 				Session.set("sort_order", {createdAt: 0 });
 				break;
 			case "Alpha":
-				Session.set("sort_order", {text: 0 });
+				Session.set("sort_order", {lowerText : 0 });
 				break;
 			case "Pending":
 				Session.set("sort_order", {checked: 0 });

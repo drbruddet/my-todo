@@ -23,12 +23,15 @@ Meteor.methods({
 		check(priority, Number);
 		check(privacy, Boolean);
 
+		const lowerText = text.toLowerCase();
+
 		if  (! this.userId) {
 			throw new Meteor.Error('not-authorized');
 		}
 
 		Tasks.insert({
 			text,
+			lowerText,
 			private: privacy,
 			priority,
 			createdAt: new Date(),
