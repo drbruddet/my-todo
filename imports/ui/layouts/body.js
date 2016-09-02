@@ -5,6 +5,7 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 import { Lists } from '/imports/api/lists.js';
 import { Tasks } from '/imports/api/tasks.js';
 
+import '../components/navbar.js';
 import '../components/task.js';
 import '../components/list.js';
 import './body.styl';

@@ -1,11 +1,5 @@
 body
-	header.ui.top.fixed.menu
-		.item
-			img(src="/images/icon.png")
-			span.titleicon GK Todo List
-		.right.menu
-			.item
-				+loginButtons
+	+navbar
 
 	main.ui.page.grid
 
@@ -23,7 +17,9 @@ body
 
 			if currentUser
 				form.ui.action.input.fluid.new-task.huge
+
 					input(type="text" name="text" placeholder="Type to add new tasks")
+
 					.ui.selection.dropdown.compact.privacy
 						input(type="hidden" name="Privacy")
 						i.dropdown.icon
@@ -35,6 +31,7 @@ body
 							.item(data-text="Private")
 								i.lock.icon
 								span Private
+
 					.ui.selection.dropdown.priority.compact
 						input(type="hidden" name="Priority")
 						i.dropdown.icon
