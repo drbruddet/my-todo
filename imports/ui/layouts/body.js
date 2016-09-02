@@ -52,7 +52,6 @@ Template.body.events({
 		const target = event.target;
 		const text = target.text.value;
 		const privacy = $('.ui.dropdown.privacy').dropdown("get text") === "Public" ? false : true;
-		console.log(privacy);
 		const priority = Number($('.ui.dropdown.priority').dropdown("get value"));
 
 		Meteor.call('tasks.insert', text, privacy, priority);

@@ -24,11 +24,17 @@ body
 			if currentUser
 				form.ui.action.input.fluid.new-task.huge
 					input(type="text" name="text" placeholder="Type to add new tasks")
-					select.ui.compact.selection.dropdown.privacy
-						option(value="Public") Public
-							i.unlock.icon
-						option(value="Private") Private
-							i.lock.icon.red
+					.ui.selection.dropdown.compact.privacy
+						input(type="hidden" name="Privacy")
+						i.dropdown.icon
+						.default.text Public
+						.menu
+							.item(data-text="Public")
+								i.unlock.icon
+								span Public
+							.item(data-text="Private")
+								i.lock.icon
+								span Private
 					.ui.selection.dropdown.priority.compact
 						input(type="hidden" name="Priority")
 						i.dropdown.icon
