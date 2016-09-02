@@ -5,6 +5,49 @@ import { check } from 'meteor/check';
 
 export const Tasks = new Mongo.Collection('tasks');
 
+TasksSchema = new SimpleSchema({
+	text: {
+		type: String,
+		label: "Task Name",
+		max: 1000,
+	},
+	lowerText: {
+		type: String,
+		label: "Task Name in Loawer Case",
+		max: 1000,
+	},
+	priority: {
+		type: Number,
+		label: "Task priority",
+		allowedValues: [0, 1, 2],
+	},
+	private: {
+		type: Boolean,
+		label: "Task privacy",
+	},
+	listId: {
+		type: String,
+		label: "List of the task",
+	},
+	createdAt: {
+		type: Date,
+		label: "Date task added to the list",
+		autoValue: function() {
+			if (this.isInsert) {
+				return new Date;
+			}
+		},
+	},
+	owner: {
+		type: String,
+	},
+	username: {
+		type: String,
+		optional: true
+	}
+});
+Tasks.attachSchema(TasksSchema);
+
 if (Meteor.isServer) {
 	Meteor.publish('tasks', function tasksPublication() {
 		return Tasks.find({
@@ -18,7 +61,7 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
-	'tasks.insert'(text, privacy, priority) {
+	'tasks.insert'(text, privacy, priority, listId) {
 		check(text, String);
 		check(priority, Number);
 		check(privacy, Boolean);
@@ -34,6 +77,7 @@ Meteor.methods({
 			lowerText,
 			private: privacy,
 			priority,
+			listId: "totot",
 			createdAt: new Date(),
 			owner: this.userId,
 			username: Meteor.users.findOne(this.userId).username,

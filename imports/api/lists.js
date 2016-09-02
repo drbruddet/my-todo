@@ -4,6 +4,32 @@ import { check } from 'meteor/check';
 
 export const Lists = new Mongo.Collection('lists');
 
+ListsSchema = new SimpleSchema({
+	text: {
+		type: String,
+		label: "ListName",
+		max: 1000,
+	},
+	createdAt: {
+		type: Date,
+		label: "Date list added to the application",
+		autoValue: function() {
+			if (this.isInsert) {
+				return new Date;
+			}
+		},
+	},
+	owner: {
+		type: String,
+	},
+	username: {
+		type: String,
+		optional: true
+	}
+});
+Lists.attachSchema(ListsSchema);
+
+
 if (Meteor.isServer) {
 	Meteor.publish('lists', function listsPublication() {
 		return Lists.find({

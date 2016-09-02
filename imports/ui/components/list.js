@@ -17,6 +17,7 @@ Template.list.helpers({
 Template.list.events({
 
  	'click .delete'() {
+ 		console.log(this._id);
 		Meteor.call('lists.remove', this._id);
 	},
 
