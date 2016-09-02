@@ -50,14 +50,13 @@ Template.body.events({
 	'submit .new-task' (event) {
 		event.preventDefault();
 
-		const listId = "this.listId";
-
 		const target = event.target;
 		const text = target.text.value;
 		const privacy = $('.ui.dropdown.privacy').dropdown("get text") === "Public" ? false : true;
 		const priority = Number($('.ui.dropdown.priority').dropdown("get value"));
 
-		Meteor.call('tasks.insert', text, privacy, priority, listId);
+		Meteor.call('tasks.insert', text, privacy, priority);
+		Bert.alert( 'Task inserted successfully!', 'success', 'growl-top-right' );
 
 		target.text.value = '';
 		$('.ui.dropdown.priority').dropdown('restore defaults');
@@ -72,6 +71,7 @@ Template.body.events({
 		const list = target.text.value;
 
 		Meteor.call('lists.insert', list);
+		Bert.alert( 'List inserted successfully!', 'success', 'growl-top-right' );
 
 		target.text.value = '';
 	},

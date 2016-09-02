@@ -37,10 +37,12 @@ Template.task.helpers({
 Template.task.events({
 	'click .toggle-checked'() {
 		Meteor.call('tasks.setChecked', this._id, !this.checked);
+		Bert.alert( 'Good job, task done!', 'default', 'growl-top-right' );
 	},
 
  	'click .delete'() {
 		Meteor.call('tasks.remove', this._id);
+		Bert.alert( 'Task removed successfully!', 'danger', 'growl-top-right' );
 	},
 
 	'click .toggle-private'() {
@@ -61,7 +63,7 @@ Template.task.events({
 		if (event.keyCode === 27) {
 			return Session.set("target" + this._id, false);
 		}
-
+		Bert.alert( 'Task updated successfully!', 'warning', 'growl-top-right' );
 	},
 
 });

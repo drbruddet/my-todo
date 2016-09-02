@@ -5,7 +5,7 @@ import '/imports/ui/layouts/body.js';
 
 FlowRouter.route('/', {
 	name: 'Home',
-	action(params, queryParams) {
+	action: function() {
 
 	},
 });

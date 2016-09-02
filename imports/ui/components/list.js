@@ -17,8 +17,8 @@ Template.list.helpers({
 Template.list.events({
 
  	'click .delete'() {
- 		console.log(this._id);
 		Meteor.call('lists.remove', this._id);
+		Bert.alert( 'List removed successfully!', 'danger', 'growl-top-right' );
 	},
 
 	'click .toggle-private'() {

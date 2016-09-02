@@ -25,10 +25,6 @@ TasksSchema = new SimpleSchema({
 		type: Boolean,
 		label: "Task privacy",
 	},
-	listId: {
-		type: String,
-		label: "List of the task",
-	},
 	createdAt: {
 		type: Date,
 		label: "Date task added to the list",
@@ -61,7 +57,7 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
-	'tasks.insert'(text, privacy, priority, listId) {
+	'tasks.insert'(text, privacy, priority) {
 		check(text, String);
 		check(priority, Number);
 		check(privacy, Boolean);
@@ -77,7 +73,6 @@ Meteor.methods({
 			lowerText,
 			private: privacy,
 			priority,
-			listId: "totot",
 			createdAt: new Date(),
 			owner: this.userId,
 			username: Meteor.users.findOne(this.userId).username,
