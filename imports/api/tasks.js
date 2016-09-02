@@ -40,6 +40,9 @@ TasksSchema = new SimpleSchema({
 	username: {
 		type: String,
 		optional: true
+	},
+	checked: {
+		type: Boolean,
 	}
 });
 Tasks.attachSchema(TasksSchema);
@@ -76,6 +79,7 @@ Meteor.methods({
 			createdAt: new Date(),
 			owner: this.userId,
 			username: Meteor.users.findOne(this.userId).username,
+			checked: false,
 		});
 	},
 
