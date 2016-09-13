@@ -37,6 +37,9 @@ TasksSchema = new SimpleSchema({
 	owner: {
 		type: String,
 	},
+	listId: {
+		type: String,
+	},
 	username: {
 		type: String,
 		optional: true
@@ -60,7 +63,7 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
-	'tasks.insert'(text, privacy, priority) {
+	'tasks.insert'(text, privacy, priority, listId) {
 		check(text, String);
 		check(priority, Number);
 		check(privacy, Boolean);
@@ -77,6 +80,7 @@ Meteor.methods({
 			private: privacy,
 			priority,
 			createdAt: new Date(),
+			listId: listId,
 			owner: this.userId,
 			username: Meteor.users.findOne(this.userId).username,
 			checked: false,

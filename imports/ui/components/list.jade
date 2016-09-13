@@ -1,5 +1,5 @@
 template(name="list")
-	a.item.listitem(class='{{#if private}}private{{/if}}')
+	a.item.listitem.list-name(class='{{#if private}}private{{/if}}' data-id="{{this._id}}")
 		i.icon.delete.ui.red
 		if isOwner
 			span.toggle-private

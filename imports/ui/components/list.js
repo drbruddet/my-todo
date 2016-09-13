@@ -15,10 +15,16 @@ Template.list.helpers({
 });
 
 Template.list.events({
-
  	'click .delete'() {
 		Meteor.call('lists.remove', this._id);
 		Bert.alert( 'List removed successfully!', 'danger', 'growl-top-right' );
+	},
+
+	'click .list-name' (event) {
+		event.preventDefault();
+
+		var data = $(event.currentTarget).attr('data-id');
+		Session.set('listId', data);
 	},
 
 	'click .toggle-private'() {

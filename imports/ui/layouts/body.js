@@ -28,9 +28,12 @@ Template.body.helpers({
 		const instance = Template.instance();
 
 		if (instance.state.get('hideCompleted')) {
-			return Tasks.find({ checked: { $ne: true } }, { sort: Session.get("sort_order") });
+			return Tasks.find({
+				listId: Session.get('listId'),
+				checked: { $ne: true },
+			}, { sort: Session.get("sort_order") });
 		}
-		return Tasks.find({}, { sort: Session.get("sort_order")});
+		return Tasks.find({listId: Session.get('listId')}, { sort: Session.get("sort_order")});
 	},
 
 	lists() {
@@ -54,8 +57,9 @@ Template.body.events({
 		const text = target.text.value;
 		const privacy = $('.ui.dropdown.privacy').dropdown("get text") === "Public" ? false : true;
 		const priority = Number($('.ui.dropdown.priority').dropdown("get value"));
+		const listId = Session.get('listId');
 
-		Meteor.call('tasks.insert', text, privacy, priority);
+		Meteor.call('tasks.insert', text, privacy, priority, listId);
 		Bert.alert( 'Task inserted successfully!', 'success', 'growl-top-right' );
 
 		target.text.value = '';
