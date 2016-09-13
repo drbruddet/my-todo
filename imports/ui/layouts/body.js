@@ -73,7 +73,11 @@ Template.body.events({
 		const target = event.target;
 		const list = target.text.value;
 
-		Meteor.call('lists.insert', list);
+		// Callback to get the Id of the list just created
+		Meteor.call('lists.insert', list, function(error, listId) {
+			Session.set('listId', listId);
+		});
+
 		Bert.alert( 'List inserted successfully!', 'success', 'growl-top-right' );
 
 		target.text.value = '';

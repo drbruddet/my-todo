@@ -52,7 +52,8 @@ Meteor.methods({
 			throw new Meteor.Error('not-authorized');
 		}
 
-		Lists.insert({
+		// Return because we need to know the ID of the list when we call the insert function
+		return Lists.insert({
 			text,
 			createdAt: new Date(),
 			owner: this.userId,
