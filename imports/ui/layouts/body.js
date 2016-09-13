@@ -40,11 +40,6 @@ Template.body.helpers({
 		return Lists.find({}, { sort: { createdAt: -1 } });
 	},
 
-	// HELPER TASKS: Compte le nombre de taches
-	incompleteCount() {
-		return Tasks.find({ checked: { $ne: true } }).count();
-	},
-
 });
 
 Template.body.events({

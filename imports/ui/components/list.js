@@ -10,7 +10,7 @@ Template.list.helpers({
  	},
 
  	incompleteCount() {
-		return Tasks.find({ checked: { $ne: true } }).count();
+		return Tasks.find({ listId: Session.get('listId'), checked: { $ne: true } }).count();
 	},
 });
 
@@ -23,8 +23,9 @@ Template.list.events({
 	'click .list-name' (event) {
 		event.preventDefault();
 
-		var data = $(event.currentTarget).attr('data-id');
-		Session.set('listId', data);
+		var list = $(event.currentTarget).attr('list-id');
+		Session.set('listId', list);
+		Session.set('taskToDo', Tasks.find({ listId: Session.get('listId'), checked: { $ne: true } }).count());
 	},
 
 	'click .toggle-private'() {
