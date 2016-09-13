@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
+import { Tasks } from '/imports/api/tasks.js';
+
 export const Lists = new Mongo.Collection('lists');
 
 ListsSchema = new SimpleSchema({
@@ -65,7 +67,7 @@ Meteor.methods({
 		if (list.owner !== this.userId) {
 			throw new Meteor.Error('not-authorized');
 		}
-
+		Tasks.remove({"listId": listId});
 		Lists.remove(listId);
 	},
 
