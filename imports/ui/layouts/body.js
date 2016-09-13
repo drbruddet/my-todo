@@ -77,7 +77,6 @@ Template.body.events({
 		Meteor.call('lists.insert', list, function(error, listId) {
 			Session.set('listId', listId);
 		});
-
 		Bert.alert( 'List inserted successfully!', 'success', 'growl-top-right' );
 
 		target.text.value = '';

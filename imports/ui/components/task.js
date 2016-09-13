@@ -57,13 +57,15 @@ Template.task.events({
 		// Enter key -> Validate the content
 		if (event.keyCode === 13) {
 			Meteor.call('tasks.validateInput', this._id, event.currentTarget.value);
+			Bert.alert( 'Task updated successfully!', 'warning', 'growl-top-right' );
 			return Session.set("target" + this._id, false);
+
 		}
 		// Escape key -> Ignore the Changes
 		if (event.keyCode === 27) {
+			Bert.alert( 'Task updated successfully!', 'warning', 'growl-top-right' );
 			return Session.set("target" + this._id, false);
 		}
-		Bert.alert( 'Task updated successfully!', 'warning', 'growl-top-right' );
 	},
 
 });
