@@ -20,7 +20,7 @@ Template.list.events({
 		Bert.alert( 'List removed successfully!', 'danger', 'growl-top-right' );
 	},
 
-	'click .list-name' (event) {
+	'click .list-selected' (event) {
 		event.preventDefault();
 
 		var list = $(event.currentTarget).attr('list-id');

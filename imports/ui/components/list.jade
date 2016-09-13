@@ -1,5 +1,5 @@
 template(name="list")
-	a.item.listitem.list-name(class='{{#if private}}private{{/if}}' list-id="{{this._id}}" )
+	a.item.listitem.list-selected(class='{{#if private}}private{{/if}}' list-id="{{this._id}}" )
 		i.icon.delete.ui.red
 		if isOwner
 			span.toggle-private
