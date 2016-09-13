@@ -12,6 +12,7 @@ Template.list.helpers({
  	incompleteCount() {
 		return Tasks.find({ listId: Session.get('listId'), checked: { $ne: true } }).count();
 	},
+
 });
 
 Template.list.events({

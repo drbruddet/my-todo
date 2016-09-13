@@ -27,7 +27,7 @@ ListsSchema = new SimpleSchema({
 	username: {
 		type: String,
 		optional: true
-	}
+	},
 });
 Lists.attachSchema(ListsSchema);
 
