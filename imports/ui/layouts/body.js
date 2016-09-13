@@ -54,8 +54,12 @@ Template.body.events({
 		const priority = Number($('.ui.dropdown.priority').dropdown("get value"));
 		const listId = Session.get('listId');
 
-		Meteor.call('tasks.insert', text, privacy, priority, listId);
-		Bert.alert( 'Task inserted successfully!', 'success', 'growl-top-right' );
+		if (listId) {
+			Meteor.call('tasks.insert', text, privacy, priority, listId);
+			Bert.alert( 'Task inserted successfully!', 'success', 'growl-top-right' );
+		} else {
+			Bert.alert( 'You must select a list before create a task!', 'danger', 'growl-top-right' );
+		}
 
 		target.text.value = '';
 		$('.ui.dropdown.priority').dropdown('restore defaults');
