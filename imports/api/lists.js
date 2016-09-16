@@ -27,7 +27,7 @@ ListsSchema = new SimpleSchema({
 	username: {
 		type: String,
 		optional: true
-	},
+	}
 });
 Lists.attachSchema(ListsSchema);
 
@@ -68,8 +68,10 @@ Meteor.methods({
 		if (list.owner !== this.userId) {
 			throw new Meteor.Error('not-authorized');
 		}
-		Tasks.remove({"listId": listId});
-		Lists.remove(listId);
+		if (Meteor.isServer) {
+        		Tasks.remove({"listId": listId});
+			Lists.remove(listId);
+    		}
 	},
 
 	'lists.setPrivate'(listId, setToPrivate) {

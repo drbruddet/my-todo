@@ -26,7 +26,6 @@ Template.list.events({
 
 		var list = $(event.currentTarget).attr('list-id');
 		Session.set('listId', list);
-		Session.set('taskToDo', Tasks.find({ listId: Session.get('listId'), checked: { $ne: true } }).count());
 	},
 
 	'click .toggle-private'() {
