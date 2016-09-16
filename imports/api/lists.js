@@ -68,7 +68,7 @@ Meteor.methods({
 		if (list.owner !== this.userId) {
 			throw new Meteor.Error('not-authorized');
 		}
-		if (Meteor.isServer) {
+		if (!this.isSimulation) {
         		Tasks.remove({"listId": listId});
 			Lists.remove(listId);
     		}
