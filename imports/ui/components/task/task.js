@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { Tasks } from '/imports/api/tasks.js';
 
+
 import './task.jade';
 
 Template.task.helpers({

@@ -4,10 +4,10 @@ import { ReactiveDict } from 'meteor/reactive-dict';
 
 import { Tasks } from '/imports/api/tasks.js';
 
-import './task.js';
 import '../list/listComponent.js';
-import './taskComponent.styl';
+import './task.js';
 
+import './taskComponent.styl';
 import './taskComponent.jade';
 
 Template.taskComponent.onCreated(function taskComponentOnCreated() {
