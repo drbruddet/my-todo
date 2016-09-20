@@ -9,18 +9,12 @@ Template.list.helpers({
 		return this.owner === Meteor.userId();
  	},
 
- 	incompleteCount() {
-		return Tasks.find({ listId: Session.get('listId'), checked: { $ne: true } }).count();
+ 	incompleteCount(listId) {
+		return Tasks.find({ listId: listId, checked: { $ne: true } }).count();
 	},
 
 	activeItem() {
-		var actualItem = this._id;
-		var clickedItem = Session.get('active');
-
-		if (actualItem === clickedItem)
-			return true;
-		else
-			return false;
+		return (this._id === Session.get('active')) ? true : false;
 	}
 
 });
