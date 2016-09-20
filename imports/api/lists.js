@@ -68,7 +68,7 @@ Meteor.methods({
 		if (list.owner !== this.userId) {
 			throw new Meteor.Error('not-authorized');
 		}
-		if (!this.isSimulation) {
+		if (!this.isSimulation) { // Handle the Blaze exception Uncaught Error: Must be attached
         		Tasks.remove({"listId": listId});
 			Lists.remove(listId);
     		}

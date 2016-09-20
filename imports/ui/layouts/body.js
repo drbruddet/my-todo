@@ -76,6 +76,7 @@ Template.body.events({
 		// Callback to get the Id of the list just created
 		Meteor.call('lists.insert', list, function(error, listId) {
 			Session.set('listId', listId);
+			Session.set('active', listId);
 		});
 		Bert.alert( 'List inserted successfully!', 'success', 'growl-top-right' );
 

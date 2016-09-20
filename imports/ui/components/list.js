@@ -13,6 +13,16 @@ Template.list.helpers({
 		return Tasks.find({ listId: Session.get('listId'), checked: { $ne: true } }).count();
 	},
 
+	activeItem() {
+		var actualItem = this._id;
+		var clickedItem = Session.get('active');
+
+		if (actualItem === clickedItem)
+			return true;
+		else
+			return false;
+	}
+
 });
 
 Template.list.events({
@@ -26,6 +36,7 @@ Template.list.events({
 
 		var list = $(event.currentTarget).attr('list-id');
 		Session.set('listId', list);
+		Session.set('active', list);
 	},
 
 	'click .toggle-private'() {
