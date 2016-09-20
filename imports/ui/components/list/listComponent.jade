@@ -1,0 +1,9 @@
+template(name="listComponent")
+	.ui.vertical.menu
+		if currentUser
+			.item
+				form.new-list.ui.transparent.icon.input
+					i.icon.edit
+					input(type="text" name="text" placeholder="Add List")
+		each lists
+			+list
