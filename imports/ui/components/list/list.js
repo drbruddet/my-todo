@@ -38,10 +38,10 @@ Template.list.events({
 		Session.set('active', list);
 	},
 
-	'click .toggle-private'() {
+	'click .toggle-list-private'() {
 		Meteor.call('lists.setPrivate', this._id, !this.private, function(error, result) {
 			if (error)
-				Bert.alert( 'An error occured: ' + error + '! Only the creator of the list can do this action.', 'danger', 'growl-top-right' );
+				Bert.alert( 'An error occured: ' + error + '! Only the creator of list can set it', 'danger', 'growl-top-right' );
 		});
 	},
 

@@ -70,7 +70,7 @@ Template.task.events({
 				if (error) {
 					Bert.alert( 'An error occured: ' + error + '! Only the creator of list can update it', 'danger', 'growl-top-right' );
 				} else {
-					Bert.alert( 'Task updated successfully!', 'warning', 'growl-top-right' );
+					Bert.alert( 'Task updated successfully!', 'success', 'growl-top-right' );
 				}
 			});
 			return Session.set("target" + this._id, false);

@@ -21,6 +21,10 @@ ListsSchema = new SimpleSchema({
 			}
 		},
 	},
+	private: {
+		type: Boolean,
+		label: "List privacy",
+	},
 	owner: {
 		type: String,
 	},
@@ -56,6 +60,7 @@ Meteor.methods({
 		return Lists.insert({
 			text,
 			createdAt: new Date(),
+			private: privacy,
 			owner: this.userId,
 			username: Meteor.users.findOne(this.userId).username,
 		});
@@ -65,7 +70,7 @@ Meteor.methods({
 		check(listId, String);
 
 		const list = Lists.findOne(listId);
-		if (list.owner !== this.userId) {
+		if (list.private && list.owner !== this.userId) {
 			throw new Meteor.Error('not-authorized');
 		}
 		if (!this.isSimulation) { // Handle the Blaze exception Uncaught Error: Must be attached

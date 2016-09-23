@@ -57,7 +57,7 @@ Template.taskComponent.events({
 				}
 			});
 		} else {
-			Bert.alert( 'You must select a list before create a task!', 'danger', 'growl-top-right' );
+			Bert.alert( 'You must select a list before create a task!', 'warning', 'growl-top-right' );
 		}
 
 		target.text.value = '';

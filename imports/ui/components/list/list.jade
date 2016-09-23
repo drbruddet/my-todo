@@ -2,7 +2,7 @@ template(name="list")
 	a.item.listitem.list-selected(class='{{#if private}}private{{/if}} {{#if activeItem}}active{{/if}}' list-id="{{this._id}}" )
 		i.icon.delete.ui.red
 		if isOwner
-			span.toggle-private
+			span.toggle-list-private
 				if private
 					i.fa.fa-lock.private-lock
 				else
