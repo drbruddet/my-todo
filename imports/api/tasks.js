@@ -94,7 +94,9 @@ Meteor.methods({
 		if (task.private && task.owner !== this.userId) {
 			throw new Meteor.Error('not-authorized');
 		}
-		Tasks.remove(taskId);
+		if (!this.isSimulation) {
+			Tasks.remove(taskId);
+		}
 	},
 
 	'tasks.setChecked'(taskId, setChecked) {
@@ -105,8 +107,9 @@ Meteor.methods({
 		if (task.private && task.owner !== this.userId) {
 			throw new Meteor.Error('not-authorized');
 		}
-
+		var isAlreadySelected = Tasks.findOne(taskId, {fields: {'checked':true}});
 		Tasks.update(taskId, { $set: { checked: setChecked} });
+		return isAlreadySelected.checked;
 	},
 
 	'tasks.setPrivate'(taskId, setToPrivate) {

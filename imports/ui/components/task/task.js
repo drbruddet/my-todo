@@ -2,7 +2,6 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { Tasks } from '/imports/api/tasks.js';
 
-
 import './task.jade';
 
 Template.task.helpers({
@@ -37,17 +36,27 @@ Template.task.helpers({
 
 Template.task.events({
 	'click .toggle-checked'() {
-		Meteor.call('tasks.setChecked', this._id, !this.checked);
-		Bert.alert( 'Good job, task done!', 'default', 'growl-top-right' );
+		Meteor.call('tasks.setChecked', this._id, !this.checked, function(error, result) {
+			if (result === false)
+				Bert.alert( 'Good job, task done!', 'default', 'growl-top-right' );
+		});
 	},
 
  	'click .delete'() {
-		Meteor.call('tasks.remove', this._id);
-		Bert.alert( 'Task removed successfully!', 'danger', 'growl-top-right' );
+		Meteor.call('tasks.remove', this._id, function(error, result) {
+			if (error) {
+				Bert.alert( 'An error occured: ' + error + '! Only the creator of the task can delete it.', 'danger', 'growl-top-right' );
+			} else {
+				Bert.alert( 'Task removed successfully!', 'success', 'growl-top-right' );
+			}
+		});
 	},
 
 	'click .toggle-private'() {
-		Meteor.call('tasks.setPrivate', this._id, !this.private);
+		Meteor.call('tasks.setPrivate', this._id, !this.private, function(error, result) {
+			if (error)
+				Bert.alert( 'An error occured: ' + error + '! Only the creator of list can set it', 'danger', 'growl-top-right' );
+		});
 	},
 
 	'click #edit'() {
@@ -57,14 +66,17 @@ Template.task.events({
 	'keydown input'(event) {
 		// Enter key -> Validate the content
 		if (event.keyCode === 13) {
-			Meteor.call('tasks.validateInput', this._id, event.currentTarget.value);
-			Bert.alert( 'Task updated successfully!', 'warning', 'growl-top-right' );
+			Meteor.call('tasks.validateInput', this._id, event.currentTarget.value, function(error, result) {
+				if (error) {
+					Bert.alert( 'An error occured: ' + error + '! Only the creator of list can update it', 'danger', 'growl-top-right' );
+				} else {
+					Bert.alert( 'Task updated successfully!', 'warning', 'growl-top-right' );
+				}
+			});
 			return Session.set("target" + this._id, false);
-
 		}
 		// Escape key -> Ignore the Changes
 		if (event.keyCode === 27) {
-			Bert.alert( 'Task updated successfully!', 'warning', 'growl-top-right' );
 			return Session.set("target" + this._id, false);
 		}
 	},

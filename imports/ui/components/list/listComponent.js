@@ -7,6 +7,10 @@ import './list.js';
 import './listComponent.jade';
 import './listComponent.styl';
 
+Template.listComponent.onCreated(function listComponentOnCreated() {
+ 	Meteor.subscribe('lists');
+});
+
 Template.listComponent.helpers({
 
 	lists() {
@@ -26,11 +30,14 @@ Template.listComponent.events({
 
 		// Callback to get the Id of the list just created
 		Meteor.call('lists.insert', list, function(error, listId) {
-			Session.set('listId', listId);
-			Session.set('active', listId);
+			if (!error) {
+				Session.set('listId', listId);
+				Session.set('active', listId);
+				Bert.alert( 'List inserted successfully!', 'success', 'growl-top-right' );
+			} else {
+				Bert.alert( 'You are not authorized to do this action!', 'danger', 'growl-top-right' );
+			}
 		});
-		Bert.alert( 'List inserted successfully!', 'success', 'growl-top-right' );
-
 		target.text.value = '';
 	},
 

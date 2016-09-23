@@ -13,6 +13,7 @@ import './taskComponent.jade';
 Template.taskComponent.onCreated(function taskComponentOnCreated() {
  	this.state = new ReactiveDict();
 	Session.set("sort_order", {createdAt: -1 });
+	Meteor.subscribe('tasks');
 });
 
 Template.taskComponent.onRendered(function() {
@@ -48,8 +49,13 @@ Template.taskComponent.events({
 		const listId = Session.get('listId');
 
 		if (listId) {
-			Meteor.call('tasks.insert', text, privacy, priority, listId);
-			Bert.alert( 'Task inserted successfully!', 'success', 'growl-top-right' );
+			Meteor.call('tasks.insert', text, privacy, priority, listId, function(error, result) {
+				if (error) {
+					Bert.alert( 'An error occured: You can\'t create the task is you are not the creator!', 'danger', 'growl-top-right' );
+				} else {
+					Bert.alert( 'Task inserted successfully!', 'success', 'growl-top-right' );
+				}
+			});
 		} else {
 			Bert.alert( 'You must select a list before create a task!', 'danger', 'growl-top-right' );
 		}

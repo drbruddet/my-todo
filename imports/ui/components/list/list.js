@@ -21,8 +21,13 @@ Template.list.helpers({
 
 Template.list.events({
  	'click .delete'() {
-		Meteor.call('lists.remove', this._id);
-		Bert.alert( 'List removed successfully!', 'danger', 'growl-top-right' );
+ 		Meteor.call('lists.remove', this._id, function(error, result) {
+			if (error) {
+				Bert.alert( 'An error occured: ' + error + '! Only the creator of the list can delete it.', 'danger', 'growl-top-right' );
+			} else {
+				Bert.alert( 'List removed successfully!', 'success', 'growl-top-right' );
+			}
+		});
 	},
 
 	'click .list-selected' (event) {
@@ -34,7 +39,10 @@ Template.list.events({
 	},
 
 	'click .toggle-private'() {
-		Meteor.call('lists.setPrivate', this._id, !this.private);
+		Meteor.call('lists.setPrivate', this._id, !this.private, function(error, result) {
+			if (error)
+				Bert.alert( 'An error occured: ' + error + '! Only the creator of the list can do this action.', 'danger', 'growl-top-right' );
+		});
 	},
 
 });
