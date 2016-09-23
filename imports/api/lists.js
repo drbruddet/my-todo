@@ -60,7 +60,7 @@ Meteor.methods({
 		return Lists.insert({
 			text,
 			createdAt: new Date(),
-			private: privacy,
+			private: false,
 			owner: this.userId,
 			username: Meteor.users.findOne(this.userId).username,
 		});
@@ -90,6 +90,18 @@ Meteor.methods({
 		}
 
 		Lists.update(listId, { $set: { private: setToPrivate } });
+	},
+
+	'lists.validateInput'(listId, key) {
+		check(listId, String);
+		check(key, String);
+		const list = Lists.findOne(listId);
+
+		if (list.owner !== this.userId) {
+			throw new Meteor.Error('not-authorized');
+		}
+
+		Lists.update(listId, { $set: { text: key } });
 	},
 
 });

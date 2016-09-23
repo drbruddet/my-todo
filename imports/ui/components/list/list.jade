@@ -1,12 +1,18 @@
 template(name="list")
 	a.item.listitem.list-selected(class='{{#if private}}private{{/if}} {{#if activeItem}}active{{/if}}' list-id="{{this._id}}" )
-		i.icon.delete.ui.red
-		if isOwner
-			span.toggle-list-private
-				if private
-					i.fa.fa-lock.private-lock
-				else
-					i.fa.fa-unlock.public-lock
-		span.text #{text}
-		.ui.teal.left.pointing.label
-			span {{incompleteCount this._id}}
+		if editing
+			.ui.action.input.editinginput.fluid
+				input.full-input(type="text" value="{{text}}")
+		else
+			i.icon.delete.ui.red
+			if isOwner
+				span#editlist
+					i.fa.fa-edit
+				span.toggle-list-private
+					if private
+						i.fa.fa-lock.private-lock
+					else
+						i.fa.fa-unlock.public-lock
+			span.text #{text}
+			.ui.teal.left.pointing.label
+				span {{incompleteCount this._id}}

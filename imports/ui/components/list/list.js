@@ -9,6 +9,10 @@ Template.list.helpers({
 		return this.owner === Meteor.userId();
  	},
 
+ 	 editing() {
+ 		return Session.get("targetlist" + this._id);
+ 	},
+
  	incompleteCount(listId) {
 		return Tasks.find({ listId: listId, checked: { $ne: true } }).count();
 	},
@@ -43,6 +47,28 @@ Template.list.events({
 			if (error)
 				Bert.alert( 'An error occured: ' + error + '! Only the creator of list can set it', 'danger', 'growl-top-right' );
 		});
+	},
+
+	'click #editlist'() {
+		return Session.set("targetlist" + this._id, true);
+	},
+
+	'keydown input'(event) {
+		// Enter key -> Validate the content
+		if (event.keyCode === 13) {
+			Meteor.call('lists.validateInput', this._id, event.currentTarget.value, function(error, result) {
+				if (error) {
+					Bert.alert( 'An error occured: ' + error + '! Only the creator of list can update it', 'danger', 'growl-top-right' );
+				} else {
+					Bert.alert( 'List updated successfully!', 'success', 'growl-top-right' );
+				}
+			});
+			return Session.set("targetlist" + this._id, false);
+		}
+		// Escape key -> Ignore the Changes
+		if (event.keyCode === 27) {
+			return Session.set("targetlist" + this._id, false);
+		}
 	},
 
 });
