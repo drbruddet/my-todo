@@ -63,7 +63,7 @@ Meteor.methods({
 		return Lists.insert({
 			text,
 			createdAt: new Date(),
-			private: false,
+			private: true,
 			owner: this.userId,
 			username: Meteor.users.findOne(this.userId).username,
 		});

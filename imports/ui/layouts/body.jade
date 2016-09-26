@@ -1,10 +1,10 @@
 body
 	+navbar
+	.ui.container.content
+		.ui.stackable.doubling.grid
 
-	main.ui.page.grid
+			.four.wide.column
+				+listComponent
 
-		div.four.wide.column
-			+listComponent
-
-		div.twelve.wide.column
-			+taskComponent
+			.twelve.wide.column
+				+taskComponent

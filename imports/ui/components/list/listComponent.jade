@@ -1,8 +1,8 @@
 template(name="listComponent")
-	.ui.vertical.menu
+	.ui.segments.piled
 		if currentUser
-			.item
-				form.new-list.ui.transparent.icon.input
+			.ui.segment
+				form.new-list.ui.transparent.icon.input.fluid
 					i.icon.edit
 					input(type="text" name="text" placeholder="Add List")
 		each lists

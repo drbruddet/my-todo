@@ -44,6 +44,10 @@ Template.taskComponent.helpers({
 		return Tasks.find({listId: Session.get('listId')}, { sort: Session.get("sort_order")});
 	},
 
+	activeList() {
+		return (this._id === Session.get('active')) ? false : true;
+	},
+
 });
 
 Template.taskComponent.events({

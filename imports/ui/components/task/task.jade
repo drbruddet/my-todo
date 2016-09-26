@@ -1,8 +1,6 @@
 template(name="task")
-	.item.task(class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}}")
+	.item.task(class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}} {{this._id}}")
 		.left.floated.content
-			.ui.button.teal.toggle-checked(checked="{{checked}}" class="{{#if checked}}buttoncheck{{/if}}")
-				i.icon.checkmark
 			.ui.empty.circular.label(class="{{priorityColor priority}}")
 		if editing
 			.ui.action.input.editinginput.fluid
@@ -10,13 +8,17 @@ template(name="task")
 		else
 			.left.floated.content
 				#edit.header #{text}
-				.description {{dateFormate createdAt}} -  #{username}
-			.right.floated.content.buttons.ui.icon.large
+				.ui.label.mini.tag
+					span #{username}
+					.detail {{dateFormate createdAt}}
+			.right.floated.content.buttons.ui.icon
 				if isOwner
 					.ui.button.toggle-private.toggle
 						if private
 							i.lock.icon.private-lock
 						else
 							i.unlock.icon.public-lock
+				.ui.button.teal.toggle-checked(checked="{{checked}}" class="{{#if checked}}buttoncheck{{/if}}")
+					i.icon.checkmark
 				.ui.button.delete.red
 					i.icon.delete

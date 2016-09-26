@@ -54,6 +54,7 @@ Template.task.events({
 			if (error) {
 				Bert.alert( 'An error occured: ' + error + '! Only the creator of the task can delete it.', 'danger', 'growl-top-right' );
 			} else {
+
 				Bert.alert( 'Task removed successfully!', 'success', 'growl-top-right' );
 			}
 		});
