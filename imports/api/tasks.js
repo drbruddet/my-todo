@@ -5,6 +5,10 @@ import { check } from 'meteor/check';
 
 export const Tasks = new Mongo.Collection('tasks');
 
+// Schema of the task
+// Text / lowerText (copy of the text in lower caractere to be able to sort by Alpha)
+// Priority (Set a degre of priority to the task) / Private (public, Private task) / CreatedAt
+//Owner / username / ListId (which list the task is from) / checked (if the task is done)
 TasksSchema = new SimpleSchema({
 	text: {
 		type: String,
@@ -63,11 +67,13 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
+	// Insert a new task taking some parameters from the form + associate list
 	'tasks.insert'(text, privacy, priority, listId) {
 		check(text, String);
 		check(priority, Number);
 		check(privacy, Boolean);
 
+		// copy of the text to be able to sort it by Alpha
 		const lowerText = text.toLowerCase();
 
 		if  (! this.userId) {
@@ -87,6 +93,7 @@ Meteor.methods({
 		});
 	},
 
+	// Delete a task with taskId
 	'tasks.remove'(taskId) {
 		check(taskId, String);
 
@@ -99,6 +106,7 @@ Meteor.methods({
 		}
 	},
 
+	// Set the fild checked when the task is done
 	'tasks.setChecked'(taskId, setChecked) {
 		check(taskId, String);
 		check(setChecked, Boolean);
@@ -112,6 +120,7 @@ Meteor.methods({
 		return isAlreadySelected.checked;
 	},
 
+	// Set privacy to the task (public / private)
 	'tasks.setPrivate'(taskId, setToPrivate) {
 		check(taskId, String);
 		check(setToPrivate, Boolean);
@@ -125,6 +134,7 @@ Meteor.methods({
 		Tasks.update(taskId, { $set: { private: setToPrivate } });
 	},
 
+	// validate input of an editing task
 	'tasks.validateInput'(taskId, key) {
 		check(taskId, String);
 		check(key, String);

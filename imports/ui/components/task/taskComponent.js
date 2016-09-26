@@ -11,11 +11,12 @@ import './taskComponent.styl';
 import './taskComponent.jade';
 
 Template.taskComponent.onCreated(function taskComponentOnCreated() {
- 	this.state = new ReactiveDict();
-	Session.set("sort_order", {createdAt: -1 });
+ 	this.state = new ReactiveDict(); // Create a reactiveDict to get the task completed
+	Session.set("sort_order", {createdAt: -1 }); // Set the task sorting from newer to older task
 	Meteor.subscribe('tasks');
 });
 
+// Initialize SemanticUI features (Dropdown, Accordeons ...)
 Template.privacyDropdown.onRendered(function() {
 	this.$('.ui.dropdown').dropdown();
 });
@@ -27,9 +28,10 @@ Template.priorityDropdown.onRendered(function() {
 Template.sortingDropdown.onRendered(function() {
 	this.$('.ui.dropdown').dropdown();
 });
+// SemanticUI END
 
 Template.taskComponent.helpers({
-	// HELPER TASKS: Cache les taches complètées
+	// Get the tasks completed only or not depending of the reactiveVar
 	tasks() {
 		const instance = Template.instance();
 
@@ -46,7 +48,7 @@ Template.taskComponent.helpers({
 
 Template.taskComponent.events({
 
-	// Submit a new task with the form button
+	// Submit a new task
 	'submit .new-task' (event) {
 		event.preventDefault();
 
@@ -73,11 +75,13 @@ Template.taskComponent.events({
 		$('.ui.dropdown.privacy').dropdown('restore defaults');
 	},
 
-	// Hide completed tasks with the radio button in header
+	// Hide completed tasks with the radio button
 	'change .hide-completed input'(event, instance) {
 		instance.state.set('hideCompleted', event.target.checked);
 	},
 
+	// Sorting button. Can sort in many way:
+	// Alpha / newer / Older / Pending tasks / finished tasks / Public first / Private first / Priority (Urgent first)
 	'click .sorting'(event) {
 		event.preventDefault();
 

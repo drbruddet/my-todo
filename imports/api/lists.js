@@ -6,6 +6,8 @@ import { Tasks } from '/imports/api/tasks.js';
 
 export const Lists = new Mongo.Collection('lists');
 
+// Schema of the list:
+// Text(name) / CreatedAt / Private(public:private) / Owner / username(owner name)
 ListsSchema = new SimpleSchema({
 	text: {
 		type: String,
@@ -49,6 +51,7 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
+	// Insert a new List with a name field
 	'lists.insert'(text) {
 		check(text, String);
 
@@ -66,6 +69,7 @@ Meteor.methods({
 		});
 	},
 
+	// Delete a list by ListID with all its tasks
 	'lists.remove'(listId) {
 		check(listId, String);
 
@@ -79,6 +83,7 @@ Meteor.methods({
     		}
 	},
 
+	// Set privacy of the list (Public / Private)
 	'lists.setPrivate'(listId, setToPrivate) {
 		check(listId, String);
 		check(setToPrivate, Boolean);
@@ -92,6 +97,7 @@ Meteor.methods({
 		Lists.update(listId, { $set: { private: setToPrivate } });
 	},
 
+	// Validate the field when editing the name
 	'lists.validateInput'(listId, key) {
 		check(listId, String);
 		check(key, String);

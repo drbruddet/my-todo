@@ -12,7 +12,7 @@ Template.listComponent.onCreated(function listComponentOnCreated() {
 });
 
 Template.listComponent.helpers({
-
+	// get the lists
 	lists() {
 		return Lists.find({}, { sort: { createdAt: -1 } });
 	},
@@ -21,7 +21,7 @@ Template.listComponent.helpers({
 
 Template.listComponent.events({
 
-	// Submit a new list in the list form
+	// Submit a new list by the form and select it automaticaly
 	'submit .new-list' (event) {
 		event.preventDefault();
 

@@ -5,18 +5,19 @@ import { Tasks } from '/imports/api/tasks.js';
 import './list.jade';
 
 Template.list.helpers({
+	// Check if the user is the owner
  	isOwner() {
 		return this.owner === Meteor.userId();
  	},
-
+ 	// Know if the list it's being editing
  	 editing() {
  		return Session.get("targetlist" + this._id);
  	},
-
+ 	// Count the number of incomplete tasks for each lists
  	incompleteCount(listId) {
 		return Tasks.find({ listId: listId, checked: { $ne: true } }).count();
 	},
-
+	// Know which list is selected
 	activeItem() {
 		return (this._id === Session.get('active')) ? true : false;
 	}
@@ -24,6 +25,8 @@ Template.list.helpers({
 });
 
 Template.list.events({
+
+	// Call the Delete Method
  	'click .delete'() {
  		Meteor.call('lists.remove', this._id, function(error, result) {
 			if (error) {
@@ -34,6 +37,7 @@ Template.list.events({
 		});
 	},
 
+	// Set the selected List
 	'click .list-selected' (event) {
 		event.preventDefault();
 
@@ -42,6 +46,7 @@ Template.list.events({
 		Session.set('active', list);
 	},
 
+	// Set public / private icon
 	'click .toggle-list-private'() {
 		Meteor.call('lists.setPrivate', this._id, !this.private, function(error, result) {
 			if (error)
@@ -49,10 +54,12 @@ Template.list.events({
 		});
 	},
 
+	// Set the edition mode
 	'click #editlist'() {
 		return Session.set("targetlist" + this._id, true);
 	},
 
+	// Validate or escape the editing mode
 	'keydown input'(event) {
 		// Enter key -> Validate the content
 		if (event.keyCode === 13) {
