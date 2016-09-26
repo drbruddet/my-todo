@@ -1,36 +1,50 @@
 template(name="taskComponent")
 	if currentUser
 		form.ui.action.input.fluid.new-task.huge
-
 			input(type="text" name="text" placeholder="Type to add new tasks")
-
-			.ui.selection.dropdown.compact.privacy
-				input(type="hidden" name="Privacy")
-				i.dropdown.icon
-				.default.text Public
-				.menu
-					.item(data-text="Public")
-						i.unlock.icon
-						span Public
-					.item(data-text="Private")
-						i.lock.icon
-						span Private
-			.ui.selection.dropdown.priority.compact
-				input(type="hidden" name="Priority")
-				i.dropdown.icon
-				.default.text Priority
-				.menu
-					+priorityDropdown(value="0" text="Normal" color="green")
-					+priorityDropdown(value="1" text="Important" color="orange")
-					+priorityDropdown(value="2" text="Urgent" color="red")
+			+privacyDropdown
+			+priorityDropdown
 			button.ui.button.new-task-button(type="submit") New Task
-
 
 	.ui.clearing.divider
 	.hide-completed.ui.checkbox.slider.floated.left.left.floated.content
 		input(type="checkbox")
 		label Hide Completed Tasks
+	+sortingDropdown
+	.ui.clearing.divider
+	.ui.relaxed.divided.list.aligned.middle.relaxed
+		each tasks
+			+task
 
+template(name="privacyDropdown")
+	.ui.selection.dropdown.compact.privacy
+		input(type="hidden" name="Privacy")
+		i.dropdown.icon
+		.default.text Public
+		.menu
+			.item(data-text="Public")
+				i.unlock.icon
+				span Public
+			.item(data-text="Private")
+				i.lock.icon
+				span Private
+
+template(name="priorityDropdown")
+	.ui.selection.dropdown.priority.compact
+		input(type="hidden" name="Priority")
+		i.dropdown.icon
+		.default.text Priority
+		.menu
+			+priorityItemDropdown(value="0" text="Normal" color="green")
+			+priorityItemDropdown(value="1" text="Important" color="orange")
+			+priorityItemDropdown(value="2" text="Urgent" color="red")
+
+template(name="priorityItemDropdown")
+	.item(data-value="#{value}" data-text="#{text}")
+		.ui.empty.circular.label(class="#{color}")
+		span #{text}
+
+template(name="sortingDropdown")
 	.ui.dropdown.labeled.icon.button.sorting.right.floated.content
 		i.filter.icon
 		span.text Filter Tasks
@@ -43,14 +57,3 @@ template(name="taskComponent")
 			.item(data-value="Public") Public
 			.item(data-value="Private") Private
 			.item(data-value="Priority") Priority
-
-	.ui.clearing.divider
-	.ui.relaxed.divided.list.aligned.middle.relaxed
-		each tasks
-			+task
-
-
-template(name="priorityDropdown")
-	.item(data-value="#{value}" data-text="#{text}")
-		.ui.empty.circular.label(class="#{color}")
-		span #{text}

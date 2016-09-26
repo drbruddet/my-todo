@@ -16,7 +16,15 @@ Template.taskComponent.onCreated(function taskComponentOnCreated() {
 	Meteor.subscribe('tasks');
 });
 
-Template.taskComponent.onRendered(function() {
+Template.privacyDropdown.onRendered(function() {
+	this.$('.ui.dropdown').dropdown();
+});
+
+Template.priorityDropdown.onRendered(function() {
+	this.$('.ui.dropdown').dropdown();
+});
+
+Template.sortingDropdown.onRendered(function() {
 	this.$('.ui.dropdown').dropdown();
 });
 
