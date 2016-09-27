@@ -14,9 +14,10 @@ template(name="taskComponent")
 				label Hide Completed Tasks
 			+sortingDropdown
 			.ui.clearing.divider
-			.ui.aligned.middle.celled.list.relaxed
-				each tasks
-					+task
+			table.ui.striped.table.teal.very.compact.small
+				tbody
+					each tasks
+						+task
 	else
 		+textNoList
 

@@ -1,24 +1,26 @@
 template(name="task")
-	.item.task(class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}} {{this._id}}")
-		.left.floated.content
-			.ui.empty.circular.label(class="{{priorityColor priority}}")
+	tr.task(class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}} {{this._id}}")
 		if editing
-			.ui.action.input.editinginput.fluid
-				input.full-input(type="text" value="{{text}}")
+			td.collapsing
+			td.fluid
+				.ui.action.input.editinginput.fluid
+					input.full-input(type="text" value="{{text}}")
+			td.collapsing
 		else
-			.left.floated.content
+			td.left.aligned.collapsing
+				span.ui.empty.circular.label(class="{{priorityColor priority}}")
+				i.info.icon.link(data-content="#{username} - {{dateFormate createdAt}}" data-variation="small inverted")
+			td.left.aligned
 				#edit.header #{text}
-				.ui.label.mini.tag
-					span #{username}
-					.detail {{dateFormate createdAt}}
-			.right.floated.content.buttons.ui.icon
-				if isOwner
-					.ui.button.toggle-private.toggle
-						if private
-							i.lock.icon.private-lock
-						else
-							i.unlock.icon.public-lock
-				.ui.button.teal.toggle-checked(checked="{{checked}}" class="{{#if checked}}buttoncheck{{/if}}")
-					i.icon.checkmark
-				.ui.button.delete.red
-					i.icon.delete
+			td.right.aligned.collapsing
+				.buttons.ui.tiny.icon
+					if isOwner
+						.ui.button.toggle-private.toggle.compact
+							if private
+								i.lock.icon.private-lock
+							else
+								i.unlock.icon.public-lock
+					.ui.button.compact.teal.toggle-checked(checked="{{checked}}" class="{{#if checked}}buttoncheck{{/if}}")
+						i.icon.checkmark
+					.ui.button.compact.delete.red
+						i.icon.delete

@@ -1,20 +1,21 @@
 template(name="list")
-	.ui.segment.listitem.list-selected(class='{{#if private}}private{{/if}} {{#if activeItem}}active{{/if}}' list-id="{{this._id}}" )
+	.ui.clearing.segment.listitem.list-selected.block(class='{{#if private}}private{{/if}} {{#if activeItem}}active{{/if}}' list-id="{{this._id}}" )
 		if editing
 			.ui.action.input.editinginput.fluid
 				input.full-input(type="text" value="{{text}}")
 		else
 			span.text #{text}
-			if isOwner
-				span#editlist
-					i.fa.fa-edit
-				span
-					i.icon.delete.ui.red
-				span.toggle-list-private
-					if private
-						i.fa.fa-lock.private-lock
-					else
-						i.fa.fa-unlock.public-lock
-			.ui.teal.label
-				span {{incompleteCount this._id}}
+			.rightblock
+				if isOwner
+					span.toggle-list-private.icons
+						if private
+							i.fa.fa-lock.private-lock
+						else
+							i.fa.fa-unlock.public-lock
+					span#editlist
+						i.fa.fa-edit
+					span
+						i.icon.delete.ui.red
+				.ui.teal.label
+					span {{incompleteCount this._id}}
 

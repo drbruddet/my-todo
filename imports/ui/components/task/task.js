@@ -4,6 +4,12 @@ import { Tasks } from '/imports/api/tasks.js';
 
 import './task.jade';
 
+Template.task.onRendered(function() {
+	this.$('.icon.link').popup({
+		hoverable  : true,
+	});
+});
+
 Template.task.helpers({
 	// Check if the user is the owner
  	isOwner() {
