@@ -3,7 +3,7 @@ template(name="taskComponent")
 		.ui.fluid.taskComponent
 			if currentUser
 				form.ui.action.input.fluid.new-task.huge
-					input(type="text" name="text" placeholder="Type to add new tasks")
+					input(type="text" name="text" placeholder="Type to add new tasks" maxlength="110")
 					+privacyDropdown
 					+priorityDropdown
 					button.ui.button.new-task-button(type="submit") New Task
