@@ -2,7 +2,7 @@ template(name="list")
 	.ui.clearing.segment.listitem.list-selected.block(class='{{#if private}}private{{/if}} {{#if activeItem}}active{{/if}}' list-id="{{this._id}}" )
 		if editing
 			.ui.action.input.editinginput.fluid
-				input.full-input(type="text" value="{{text}}")
+				input.full-input(type="text" value="{{text}}" maxlength="27")
 		else
 			span.text #{text}
 			.rightblock
