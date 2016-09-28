@@ -35,7 +35,10 @@ Template.listComponent.events({
 				Session.set('active', listId);
 				Bert.alert( 'List inserted successfully!', 'success', 'growl-top-right' );
 			} else {
-				Bert.alert( 'You are not authorized to do this action!', 'danger', 'growl-top-right' );
+				if (error.error === 400)
+					Bert.alert( 'You can\'t create a list with an empty name!', 'danger', 'growl-top-right' );
+				else
+					Bert.alert( 'You are not authorized to do this action!', 'danger', 'growl-top-right' );
 			}
 		});
 		target.text.value = '';

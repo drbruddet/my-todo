@@ -14,7 +14,7 @@ template(name="taskComponent")
 				label Hide Completed Tasks
 			+sortingDropdown
 			.ui.clearing.divider
-			table.ui.striped.table.teal.very.compact.small
+			table.ui.table.teal.very.compact.small
 				tbody
 					each tasks
 						+task
@@ -32,9 +32,9 @@ template(name="textNoList")
 				li then, add or manage some tasks
 
 template(name="privacyDropdown")
-	.ui.selection.dropdown.compact.privacy
+	.ui.selection.dropdown.privacy.compact
 		input(type="hidden" name="Privacy")
-		i.dropdown.icon
+		I.dropdown.icon
 		.default.text Public
 		.menu
 			.item(data-text="Public")

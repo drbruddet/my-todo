@@ -65,7 +65,10 @@ Template.taskComponent.events({
 		if (listId) {
 			Meteor.call('tasks.insert', text, privacy, priority, listId, function(error, result) {
 				if (error) {
-					Bert.alert( 'An error occured: You can\'t create the task is you are not the creator!', 'danger', 'growl-top-right' );
+					if (error.error === 400)
+						Bert.alert( 'You have to fill the Task name field!', 'danger', 'growl-top-right' );
+					else
+						Bert.alert( 'An error occured: You  are not able to create a task!', 'danger', 'growl-top-right' );
 				} else {
 					Bert.alert( 'Task inserted successfully!', 'success', 'growl-top-right' );
 				}
