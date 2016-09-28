@@ -33,6 +33,7 @@ Template.listComponent.events({
 			if (!error) {
 				Session.set('listId', listId);
 				Session.set('active', listId);
+				FlowRouter.go('/list/' + listId);
 				Bert.alert( 'List inserted successfully!', 'success', 'growl-top-right' );
 			} else {
 				if (error.error === 400)

@@ -33,6 +33,7 @@ Template.list.events({
 				Bert.alert( 'An error occured: ' + error + '! Only the creator of the list can delete it.', 'danger', 'growl-top-right' );
 			} else {
 				Bert.alert( 'List removed successfully!', 'success', 'growl-top-right' );
+				FlowRouter.go('/');
 			}
 		});
 	},
@@ -44,6 +45,7 @@ Template.list.events({
 		var list = $(event.currentTarget).attr('list-id');
 		Session.set('listId', list);
 		Session.set('active', list);
+		FlowRouter.go('/list/'+ list);
 	},
 
 	// Set public / private icon
