@@ -1,8 +1,8 @@
-import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check';
+import { Meteor } 	from 'meteor/meteor';
+import { Mongo } 	from 'meteor/mongo';
+import { check } 	from 'meteor/check';
 
-import { Tasks } from '/imports/api/tasks.js';
+import { Tasks } 	from '/imports/api/tasks.js';
 
 export const Lists = new Mongo.Collection('lists');
 
@@ -39,6 +39,7 @@ Lists.attachSchema(ListsSchema);
 
 
 if (Meteor.isServer) {
+
 	Meteor.publish('lists', function listsPublication() {
 		return Lists.find({
 			$or: [
@@ -47,67 +48,87 @@ if (Meteor.isServer) {
 			],
 		});
 	});
+
+	Meteor.methods({
+
+		// Insert a new List with a name field
+		'lists.insert'(list) {
+			check(list, { 
+				text: String,
+			});
+
+			try {
+
+				if  (! this.userId)
+					throw new Meteor.Error('500', 'Must be logged in to add new lists.');
+
+				return Lists.insert({
+					text: 		list.text,
+					private: 	true,
+					createdAt: 	new Date(),
+					owner: 		this.userId,
+					username: 	Meteor.users.findOne(this.userId).username,
+				});
+
+			} catch (exception) {
+				throw new Meteor.Error('500', exception.message);
+			}
+		},
+
+		// Delete a list by ListID with all its tasks
+		'lists.remove'(listId) {
+			check(listId, String);
+
+			const list = Lists.findOne(listId);
+
+			try {
+				if (list.private && list.owner !== this.userId)
+					throw new Meteor.Error('500', 'Must own the list to delete.');
+				if (!this.isSimulation) { 
+	        		Tasks.remove({"listId": listId});
+					Lists.remove(listId);
+	    		}
+			} catch (exception) {
+				throw new Meteor.Error('500', exception.message);
+			}
+		},
+
+		// Set privacy of the list (Public / Private)
+		'lists.setPrivate'(setPrivate) {
+			check(setPrivate, {
+				listId: 		String,
+				setToPrivate: 	Boolean,
+			});
+
+			const list = Lists.findOne(setPrivate.listId);
+
+			try {
+				if (list.private && list.owner !== this.userId)
+					throw new Meteor.Error('500', 'Must own the list to set it Private.');
+				Lists.update(setPrivate.listId, { $set: { private: setPrivate.setToPrivate } });
+			} catch (exception) {
+				throw new Meteor.Error('500', exception.message);
+			}
+		},
+
+		// Validate the field when editing the name
+		'lists.validateInput'(inputKey) {
+			check(inputKey, {
+				listId: String,
+				key: 	String,
+			})
+
+			const list = Lists.findOne(inputKey.listId);
+
+			try {
+				if (list.owner !== this.userId)
+					throw new Meteor.Error('500', 'Must be logged in to update the list name.');
+				Lists.update(inputKey.listId, { $set: { text: inputKey.key } });
+			} catch (exception) {
+				throw new Meteor.Error('500', exception.message);
+			}
+		},
+
+	});
+
 }
-
-Meteor.methods({
-
-	// Insert a new List with a name field
-	'lists.insert'(text) {
-		check(text, String);
-
-		if  (! this.userId) {
-			throw new Meteor.Error('not-authorized');
-		}
-
-		// Return because we need to know the ID of the list when we call the insert function
-		return Lists.insert({
-			text,
-			createdAt: new Date(),
-			private: true,
-			owner: this.userId,
-			username: Meteor.users.findOne(this.userId).username,
-		});
-	},
-
-	// Delete a list by ListID with all its tasks
-	'lists.remove'(listId) {
-		check(listId, String);
-
-		const list = Lists.findOne(listId);
-		if (list.private && list.owner !== this.userId) {
-			throw new Meteor.Error('not-authorized');
-		}
-		if (!this.isSimulation) { // Handle the Blaze exception Uncaught Error: Must be attached
-        		Tasks.remove({"listId": listId});
-			Lists.remove(listId);
-    		}
-	},
-
-	// Set privacy of the list (Public / Private)
-	'lists.setPrivate'(listId, setToPrivate) {
-		check(listId, String);
-		check(setToPrivate, Boolean);
-
-		const list = Lists.findOne(listId);
-
-		if (list.owner !== this.userId) {
-			throw new Meteor.Error('not-authorized');
-		}
-
-		Lists.update(listId, { $set: { private: setToPrivate } });
-	},
-
-	// Validate the field when editing the name
-	'lists.validateInput'(listId, key) {
-		check(listId, String);
-		check(key, String);
-		const list = Lists.findOne(listId);
-
-		if (list.owner !== this.userId) {
-			throw new Meteor.Error('not-authorized');
-		}
-
-		Lists.update(listId, { $set: { text: key } });
-	},
-
-});

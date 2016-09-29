@@ -1,8 +1,8 @@
-import { Meteor } from 'meteor/meteor';
-import { Template } from 'meteor/templating';
+import { Meteor } 		from 'meteor/meteor';
+import { Template } 	from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
-import { Tasks } from '/imports/api/tasks.js';
+import { Tasks } 		from '/imports/api/tasks.js';
 
 import '../list/listComponent.js';
 import './task.js';
@@ -41,7 +41,9 @@ Template.taskComponent.helpers({
 				checked: { $ne: true },
 			}, { sort: Session.get("sort_order") });
 		}
-		return Tasks.find({listId: Session.get('listId')}, { sort: Session.get("sort_order")});
+		return Tasks.find({
+			listId: Session.get('listId')
+		}, { sort: Session.get("sort_order")});
 	},
 
 	activeList() {
@@ -56,28 +58,25 @@ Template.taskComponent.events({
 	'submit .new-task' (event) {
 		event.preventDefault();
 
-		const target = event.target;
-		const text = target.text.value;
-		const privacy = $('.ui.dropdown.privacy').dropdown("get text") === "Public" ? false : true;
-		const priority = Number($('.ui.dropdown.priority').dropdown("get value"));
-		const listId = Session.get('listId');
+		let task = {
+			text: 		event.target.text.value,
+			lowerText: 	event.target.text.value.toLowerCase(),
+			private: 	$('.ui.dropdown.privacy').dropdown("get text") === "Public" ? false : true,
+			priority: 	Number($('.ui.dropdown.priority').dropdown("get value")),
+			listId: 	Session.get('listId'),
+		};
 
-		if (listId) {
-			Meteor.call('tasks.insert', text, privacy, priority, listId, function(error, result) {
-				if (error) {
-					if (error.error === 400)
-						Bert.alert( 'You have to fill the Task name field!', 'danger', 'growl-top-right' );
-					else
-						Bert.alert( 'An error occured: You  are not able to create a task!', 'danger', 'growl-top-right' );
-				} else {
+		if (task.listId) {
+			Meteor.call('tasks.insert', task, (error) => {
+				if (error)
+					Bert.alert( error.reason, 'danger', 'growl-top-right' );
+				else
 					Bert.alert( 'Task inserted successfully!', 'success', 'growl-top-right' );
-				}
 			});
-		} else {
+		} else
 			Bert.alert( 'You must select a list before create a task!', 'warning', 'growl-top-right' );
-		}
 
-		target.text.value = '';
+		event.target.text.value = '';
 		$('.ui.dropdown.priority').dropdown('restore defaults');
 		$('.ui.dropdown.privacy').dropdown('restore defaults');
 	},

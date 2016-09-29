@@ -1,7 +1,7 @@
-import { Meteor } from 'meteor/meteor';
+import { Meteor } 	from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
-import { Lists } from '/imports/api/lists.js';
+import { Lists } 	from '/imports/api/lists.js';
 
 import './list.js';
 import './listComponent.jade';
@@ -25,24 +25,22 @@ Template.listComponent.events({
 	'submit .new-list' (event) {
 		event.preventDefault();
 
-		const target = event.target;
-		const list = target.text.value;
+		let list = {
+			text: event.target.text.value,
+		}
 
 		// Callback to get the Id of the list just created
-		Meteor.call('lists.insert', list, function(error, listId) {
-			if (!error) {
+		Meteor.call('lists.insert', list, (error, listId) => {
+			if (error)
+				Bert.alert( error.reason, 'danger', 'growl-top-right' );
+			else {
 				Session.set('listId', listId);
 				Session.set('active', listId);
 				FlowRouter.go('/list/' + listId);
 				Bert.alert( 'List inserted successfully!', 'success', 'growl-top-right' );
-			} else {
-				if (error.error === 400)
-					Bert.alert( 'You can\'t create a list with an empty name!', 'danger', 'growl-top-right' );
-				else
-					Bert.alert( 'You are not authorized to do this action!', 'danger', 'growl-top-right' );
 			}
 		});
-		target.text.value = '';
+		event.target.text.value = '';
 	},
 
 });

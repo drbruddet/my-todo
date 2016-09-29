@@ -1,7 +1,7 @@
-import { Meteor } from 'meteor/meteor';
-import { Session } from 'meteor/session';
-import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check';
+import { Meteor } 	from 'meteor/meteor';
+import { Session } 	from 'meteor/session';
+import { Mongo } 	from 'meteor/mongo';
+import { check } 	from 'meteor/check';
 
 export const Tasks = new Mongo.Collection('tasks');
 
@@ -55,6 +55,7 @@ TasksSchema = new SimpleSchema({
 Tasks.attachSchema(TasksSchema);
 
 if (Meteor.isServer) {
+
 	Meteor.publish('tasks', function tasksPublication() {
 		return Tasks.find({
 			$or: [
@@ -63,88 +64,110 @@ if (Meteor.isServer) {
 			],
 		});
 	});
+
+	Meteor.methods({
+
+		// Insert a new task taking some parameters from the form + associate list
+		'tasks.insert'(task) {
+			check(task, {
+				text: 		String,
+				priority: 	Number,
+				private: 	Boolean,
+				listId: 	String,
+				lowerText: 	String, 
+			});
+
+			try {
+				if (!this.userId)
+					throw new Meteor.Error('500', 'Must be logged in to add new tasks.');
+
+				Tasks.insert({
+					text: 		task.text,
+					lowerText: 	task.lowerText,
+					priority: 	task.priority,
+					private: 	task.private,
+					listId: 	task.listId,
+					createdAt: 	new Date(),
+					owner: 		this.userId,
+					username: 	Meteor.users.findOne(this.userId).username,
+					checked: 	false,
+				});
+
+			} catch (exception) {
+				throw new Meteor.Error('500', exception.message);
+			}
+		},
+
+		// Delete a task with taskId
+		'tasks.remove'(taskId) {
+			check(taskId, String);
+
+			const task = Tasks.findOne(taskId);
+
+			try {
+				if (task.private && task.owner !== this.userId)
+					throw new Meteor.Error('500', 'Must own the task to delete.');
+				if (!this.isSimulation)
+					Tasks.remove(taskId);
+			} catch (exception) {
+				throw new Meteor.Error('500', exception.message);
+			}
+		},
+
+		// Set the fild checked when the task is done
+		'tasks.setChecked'(checked) {
+			check(checked, {
+				taskId: 	String,
+				setChecked: Boolean,
+			});
+
+			const task = Tasks.findOne(checked.taskId);
+
+			try {
+				if (task.private && task.owner !== this.userId)
+					throw new Meteor.Error('500', 'Must own the task to do this action.');
+				var isAlreadySelected = Tasks.findOne(checked.taskId, {fields: {'checked':true}});
+				Tasks.update(checked.taskId, { $set: { checked: checked.setChecked} });
+				return isAlreadySelected.checked;
+			} catch (exception) {
+				throw new Meteor.Error('500', exception.message);
+			}
+		},
+
+		// Set privacy to the task (public / private)
+		'tasks.setPrivate'(private) {
+			check(private, {
+				taskId: 		String,
+				setToPrivate: 	Boolean,
+			});
+
+			const task = Tasks.findOne(private.taskId);
+
+			try {
+				if (task.owner !== this.userId)
+					throw new Meteor.Error('500', 'Must own the task to do this action.');
+				Tasks.update(private.taskId, { $set: { private: private.setToPrivate } });
+			} catch (exception) {
+				throw new Meteor.Error('500', exception.message);
+			}
+		},
+
+		// validate input of an editing task
+		'tasks.validateInput'(updateName) {
+			check(updateName, {
+				taskId: String,
+				key: 	String,
+			})
+			const task = Tasks.findOne(updateName.taskId);
+
+			try {
+				if (task.owner !== this.userId)
+					throw new Meteor.Error('500', 'Must own the task to do this action.');
+				Tasks.update(updateName.taskId, { $set: { text: updateName.key } });
+			} catch (exception) {
+				throw new Meteor.Error('500', exception.message);
+			}
+		},
+
+	});
 }
-
-Meteor.methods({
-
-	// Insert a new task taking some parameters from the form + associate list
-	'tasks.insert'(text, privacy, priority, listId) {
-		check(text, String);
-		check(priority, Number);
-		check(privacy, Boolean);
-
-		// copy of the text to be able to sort it by Alpha
-		const lowerText = text.toLowerCase();
-
-		if  (! this.userId) {
-			throw new Meteor.Error('not-authorized');
-		}
-
-		Tasks.insert({
-			text,
-			lowerText,
-			private: privacy,
-			priority,
-			createdAt: new Date(),
-			listId: listId,
-			owner: this.userId,
-			username: Meteor.users.findOne(this.userId).username,
-			checked: false,
-		});
-	},
-
-	// Delete a task with taskId
-	'tasks.remove'(taskId) {
-		check(taskId, String);
-
-		const task = Tasks.findOne(taskId);
-		if (task.private && task.owner !== this.userId) {
-			throw new Meteor.Error('not-authorized');
-		}
-		if (!this.isSimulation) {
-			Tasks.remove(taskId);
-		}
-	},
-
-	// Set the fild checked when the task is done
-	'tasks.setChecked'(taskId, setChecked) {
-		check(taskId, String);
-		check(setChecked, Boolean);
-
-		const task = Tasks.findOne(taskId);
-		if (task.private && task.owner !== this.userId) {
-			throw new Meteor.Error('not-authorized');
-		}
-		var isAlreadySelected = Tasks.findOne(taskId, {fields: {'checked':true}});
-		Tasks.update(taskId, { $set: { checked: setChecked} });
-		return isAlreadySelected.checked;
-	},
-
-	// Set privacy to the task (public / private)
-	'tasks.setPrivate'(taskId, setToPrivate) {
-		check(taskId, String);
-		check(setToPrivate, Boolean);
-
-		const task = Tasks.findOne(taskId);
-
-		if (task.owner !== this.userId) {
-			throw new Meteor.Error('not-authorized');
-		}
-
-		Tasks.update(taskId, { $set: { private: setToPrivate } });
-	},
-
-	// validate input of an editing task
-	'tasks.validateInput'(taskId, key) {
-		check(taskId, String);
-		check(key, String);
-		const task = Tasks.findOne(taskId);
-
-		if (task.owner !== this.userId) {
-			throw new Meteor.Error('not-authorized');
-		}
-
-		Tasks.update(taskId, { $set: { text: key } });
-	},
-
-});

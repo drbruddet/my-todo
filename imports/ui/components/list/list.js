@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
-import { Lists } from '/imports/api/lists.js';
-import { Tasks } from '/imports/api/tasks.js';
+import { Lists } 	from '/imports/api/lists.js';
+import { Tasks } 	from '/imports/api/tasks.js';
 
 import './list.jade';
 
@@ -50,9 +50,14 @@ Template.list.events({
 
 	// Set public / private icon
 	'click .toggle-list-private'() {
-		Meteor.call('lists.setPrivate', this._id, !this.private, function(error, result) {
+		let setPrivate = {
+			listId: 		this._id,
+			setToPrivate: 	!this.private,
+		}
+
+		Meteor.call('lists.setPrivate', setPrivate , function(error) {
 			if (error)
-				Bert.alert( 'An error occured: ' + error + '! Only the creator of list can set it', 'danger', 'growl-top-right' );
+				Bert.alert( error.reason, 'danger', 'growl-top-right' );
 		});
 	},
 
@@ -63,19 +68,23 @@ Template.list.events({
 
 	// Validate or escape the editing mode
 	'keydown input'(event) {
+		let inputKey = {
+			listId: this._id,
+			key: 	event.currentTarget.value,
+		}
+
 		// Enter key -> Validate the content
 		if (event.keyCode === 13) {
-			Meteor.call('lists.validateInput', this._id, event.currentTarget.value, function(error, result) {
-				if (error) {
-					Bert.alert( 'An error occured: ' + error + '! Only the creator of list can update it', 'danger', 'growl-top-right' );
-				} else {
+			Meteor.call('lists.validateInput', inputKey, function(error) {
+				if (error)
+					Bert.alert( error.reason, 'danger', 'growl-top-right' );
+				else
 					Bert.alert( 'List updated successfully!', 'success', 'growl-top-right' );
-				}
 			});
 			return Session.set("targetlist" + this._id, false);
 		}
 		// Escape key -> Ignore the Changes
-		if (event.keyCode === 27) {
+		else if (event.keyCode === 27) {
 			return Session.set("targetlist" + this._id, false);
 		}
 	},
