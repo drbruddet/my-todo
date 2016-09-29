@@ -28,7 +28,7 @@ Template.list.events({
 
 	// Call the Delete Method
  	'click .delete'() {
- 		Meteor.call('lists.remove', this._id, function(error, result) {
+ 		Meteor.call('lists.remove', this._id, (error) => {
 			if (error) {
 				Bert.alert( 'An error occured: ' + error + '! Only the creator of the list can delete it.', 'danger', 'growl-top-right' );
 			} else {
@@ -55,7 +55,7 @@ Template.list.events({
 			setToPrivate: 	!this.private,
 		}
 
-		Meteor.call('lists.setPrivate', setPrivate , function(error) {
+		Meteor.call('lists.setPrivate', setPrivate, (error) => {
 			if (error)
 				Bert.alert( error.reason, 'danger', 'growl-top-right' );
 		});
@@ -75,7 +75,7 @@ Template.list.events({
 
 		// Enter key -> Validate the content
 		if (event.keyCode === 13) {
-			Meteor.call('lists.validateInput', inputKey, function(error) {
+			Meteor.call('lists.validateInput', inputKey, (error) => {
 				if (error)
 					Bert.alert( error.reason, 'danger', 'growl-top-right' );
 				else

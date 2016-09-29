@@ -48,7 +48,7 @@ Template.task.events({
 			taskId: 	this._id,
 			setChecked: !this.checked,
 		};
-		Meteor.call('tasks.setChecked', checked, function(error, result) {
+		Meteor.call('tasks.setChecked', checked, (error, result) => {
 			if (result === false)
 				Bert.alert( 'Good job, task done!', 'default', 'growl-top-right' );
 		});
@@ -56,7 +56,7 @@ Template.task.events({
 
 	// Click to delete a task
  	'click .delete'() {
-		Meteor.call('tasks.remove', this._id, function(error) {
+		Meteor.call('tasks.remove', this._id, (error) => {
 			if (error)
 				Bert.alert( 'An error occured: ' + error.reason + '! Only the creator of the task can delete it.', 'danger', 'growl-top-right' );
 			else
@@ -70,7 +70,7 @@ Template.task.events({
 			taskId: 		this._id,
 			setToPrivate: 	!this.private,
 		};
-		Meteor.call('tasks.setPrivate', private, function(error) {
+		Meteor.call('tasks.setPrivate', private, (error) => {
 			if (error)
 				Bert.alert( 'An error occured: ' + error.reason + '! Only the creator of list can set it', 'danger', 'growl-top-right' );
 		});
@@ -89,7 +89,7 @@ Template.task.events({
 		}
 		// Enter key -> Validate the content
 		if (event.keyCode === 13) {
-			Meteor.call('tasks.validateInput', updateName, function(error) {
+			Meteor.call('tasks.validateInput', updateName, (error) => {
 				if (error)
 					Bert.alert( 'An error occured: ' + error.reason + '! Only the creator of list can update it', 'danger', 'growl-top-right' );
 				else
