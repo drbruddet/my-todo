@@ -2,7 +2,7 @@ import { Meteor } 		from 'meteor/meteor';
 import { Template } 	from 'meteor/templating';
 import { ReactiveDict } from 'meteor/reactive-dict';
 
-import { Tasks } 		from '/imports/api/tasks.js';
+import { Tasks } 		from '/imports/api/tasks/tasks.js';
 
 import '../list/listComponent.js';
 import './task.js';
@@ -11,8 +11,10 @@ import './taskComponent.styl';
 import './taskComponent.jade';
 
 Template.taskComponent.onCreated(function taskComponentOnCreated() {
- 	this.state = new ReactiveDict(); // Create a reactiveDict to get the task completed
-	Session.set("sort_order", {createdAt: -1 }); // Set the task sorting from newer to older task
+	 // Create a reactiveDict to get the task completed
+	 // Give the name "hideCompletedTasks" to save it when hot code push.
+ 	this.state = new ReactiveDict('hideCompletedTasks');
+	Session.setDefault("sort_order", {createdAt: -1 }); // Set the task sorting from newer to older task
 	Meteor.subscribe('tasks');
 });
 
@@ -94,30 +96,14 @@ Template.taskComponent.events({
 		const value = $('.ui.dropdown.sorting').dropdown("get value");
 
 		switch(value) {
-			case "Recent":
-				Session.set("sort_order", {createdAt: -1 });
-				break;
-			case "Older":
-				Session.set("sort_order", {createdAt: 0 });
-				break;
-			case "Alpha":
-				Session.set("sort_order", {lowerText : 0 });
-				break;
-			case "Pending":
-				Session.set("sort_order", {checked: 0 });
-				break;
-			case "Finished":
-				Session.set("sort_order", {checked: -1 });
-				break;
-			case "Public":
-				Session.set("sort_order", {private: 0 });
-				break;
-			case "Private":
-				Session.set("sort_order", {private: -1 });
-				break;
-			case "Priority":
-				Session.set("sort_order", {priority: -1 });
-				break;
-		}
-	},
+			case "Recent": 		return Session.set("sort_order", {createdAt: -1 });
+			case "Older": 		return Session.set("sort_order", {createdAt: 0 });
+			case "Alpha": 		return Session.set("sort_order", {lowerText : 0 });
+			case "Pending": 	return Session.set("sort_order", {checked: 0 });
+			case "Finished": 	return Session.set("sort_order", {checked: -1 });
+			case "Public": 		return Session.set("sort_order", {private: 0 });
+			case "Private": 	return Session.set("sort_order", {private: -1 });
+			case "Priority": 	return Session.set("sort_order", {priority: -1 });
+		};
+	}
 });

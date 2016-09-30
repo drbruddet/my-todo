@@ -1,7 +1,7 @@
 import { Meteor } 	from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 
-import { Lists } 	from '/imports/api/lists.js';
+import { Lists } 	from '/imports/api/lists/lists.js';
 
 import './list.js';
 import './listComponent.jade';

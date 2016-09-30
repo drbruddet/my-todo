@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
-import { Lists } 	from '/imports/api/lists.js';
-import { Tasks } 	from '/imports/api/tasks.js';
+import { Lists } 	from '/imports/api/lists/lists.js';
+import { Tasks } 	from '/imports/api/tasks/tasks.js';
 
 import './list.jade';
 

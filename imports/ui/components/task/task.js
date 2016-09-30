@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Session } 	from 'meteor/session';
-import { Tasks } 	from '/imports/api/tasks.js';
+import { Tasks } 	from '/imports/api/tasks/tasks.js';
 
 import './task.jade';
 
@@ -26,17 +26,10 @@ Template.task.helpers({
 	// return the good color according to the priority
 	priorityColor: function(priority) {
 		switch(priority) {
-			case 0:
-				return "green";
-				break;
-			case 1:
-				return "orange";
-				break;
-			case 2:
-				return "red";
-				break;
+			case 0: return "green";
+			case 1: return "orange";
+			case 2: return "red";
 		}
-		return "white";
 	},
 });
 

@@ -6,8 +6,7 @@ template(name="taskComponent")
 					input(type="text" name="text" placeholder="Type to add new tasks" maxlength="110")
 					+privacyDropdown
 					+priorityDropdown
-					button.ui.button.new-task-button(type="submit") New Task
-
+					button.ui.button.new-task-button.big(type="submit") New Task
 			.ui.clearing.divider
 			.hide-completed.ui.checkbox.slider.left.floated.content
 				input(type="checkbox")
@@ -55,7 +54,7 @@ template(name="priorityDropdown")
 			+priorityItemDropdown(value="2" text="Urgent" color="red")
 
 template(name="priorityItemDropdown")
-	.item(data-value="#{value}" data-text="#{text}")
+	.item(data-value="#{value}")
 		.ui.empty.circular.label(class="#{color}")
 		span #{text}
 
